@@ -1,0 +1,5 @@
+pre-commit:
+  parallel: true
+  commands:
+    check-script-permissions:
+      run: bin/check-script-permissions {staged_files}
