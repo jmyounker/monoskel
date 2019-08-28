@@ -1,0 +1,34 @@
+#!/bin/sh -x
+
+
+install_brew() {
+	pkg=${1}
+	if ( brew list $pkg ); then
+		brew upgrade $pkg
+	else
+		brew install $pkg
+	fi
+}
+
+install_cask() {
+	pkg=${1}
+	if ( brew cask list $pkg ); then
+		brew cask upgrade $pkg
+	else
+		brew cask install $pkg
+	fi
+}
+
+install_darwin() {
+	if (! which -s brew); then
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	fi
+
+	install_brew Arkweid/lefthook/lefthook
+	install_cask docker
+	install_cask intellij-idea-ce
+}
+
+if [ "$(uname)" == "Darwin" ]; then
+	install_darwin
+fi
