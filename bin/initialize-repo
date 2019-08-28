@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+# Initializes project the first time.
+#
+# Usage: initialize-repo PROJECT_NAME
+#
+# Does a small number of things:
+# * Sets repo name in WORKSPACE file.
+#
+
+if [ $# -ne 1 ]; then
+	echo "usage: $0 PROJECT_NAME" >&2
+	exit 127
+fi
+
+project_name=${1}
+validated_project_name=$(echo ${project_name} | awk '/^[a-zA-Z0-9_]+$/{ print $0 }')
+
+if [ "$project_name" != "$validated_project_name" ]; then
+	echo "error: not a valid bazel project name:'$project_name'" >&2
+	exit 127
+fi
+
+script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
+project_root=$(dirname ${script_dir})
+
+# Replace the project name
+sed -E -i '' -e  "s/\\{\\{repo-name\\}\\}/$1/g" "$project_root/WORKSPACE"
+sed -E -i '' -e '/^# This repo is uninitialized\./d' "$project_root/WORKSPACE"

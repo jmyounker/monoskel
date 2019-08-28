@@ -27,6 +27,7 @@ install_darwin() {
 	install_brew Arkweid/lefthook/lefthook
 	install_cask docker
 	install_cask intellij-idea-ce
+	install_brew bazel
 }
 
 if [ "$(uname)" == "Darwin" ]; then
