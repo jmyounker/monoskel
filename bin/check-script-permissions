@@ -6,7 +6,7 @@
     Usage: check-script-permissions [FILES]+
 
     If any files have shebang lines but are not executable then this script
-    returns false. Diagnostics are printed to stderr.
+    exits with non-zero exit code. Prints diagnostics to stderr.
     """
 
 
@@ -25,7 +25,7 @@ def is_executable(path):
 
 
 def main(args):
-    scripts = [x for x in args[1:] if has_shebang(x)]
+    scripts = [x for x in args[1:] if not os.path.isdir(x) and has_shebang(x)]
     bad_scripts = [x for x in scripts if not is_executable(x)]
     for script in bad_scripts:
         sys.stderr.write('error: script %s is not executable\n' % script)
