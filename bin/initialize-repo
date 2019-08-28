@@ -8,6 +8,9 @@
 # * Sets repo name in WORKSPACE file.
 #
 
+script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
+project_root=$(dirname ${script_dir})
+
 if [ $# -ne 1 ]; then
 	echo "usage: $0 PROJECT_NAME" >&2
 	exit 127
@@ -20,9 +23,6 @@ if [ "$project_name" != "$validated_project_name" ]; then
 	echo "error: not a valid bazel project name:'$project_name'" >&2
 	exit 127
 fi
-
-script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
-project_root=$(dirname ${script_dir})
 
 # Replace the project name
 sed -E -i '' -e  "s/\\{\\{repo-name\\}\\}/$1/g" "$project_root/WORKSPACE"
