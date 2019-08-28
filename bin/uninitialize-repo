@@ -5,5 +5,5 @@
 script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
 project_root=$(dirname ${script_dir})
 
-# Replace WORKSPACE with a template
+# Replace WORKSPACE with the template
 cp "$project_root/WORKSPACE.tmpl" "$project_root/WORKSPACE"
