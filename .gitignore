@@ -5,3 +5,11 @@
 
 # Ignore bazel build directories
 bazel-*/
+
+# Githok management via lefthook. Ignore local definitions, but include
+# warning README.
+!.lefthook-local/
+.lefthook-local/*
+!.lefthook-local/README.md
+
+lefthook-local.yml
