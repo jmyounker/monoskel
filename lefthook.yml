@@ -5,3 +5,5 @@ pre-commit:
       run: bin/check-script-permissions {staged_files}
     check-exe-have-no-ext:
       run: bin/check-exe-have-no-ext {staged_files}
+    check-shell-fmt:
+      run: bin/check-shell-fmt {staged_files}
