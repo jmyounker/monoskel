@@ -1,0 +1,4 @@
+# Pull in shared files from intellij
+!.idea/
+.idea/*
+!.idea/runConfigurations/
