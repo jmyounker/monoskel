@@ -6,4 +6,4 @@ pre-commit:
     check-exe-have-no-ext:
       run: bin/check-exe-have-no-ext {staged_files}
     check-shell-fmt:
-      run: bin/check-shell-fmt {staged_files}
+      run: bin/lint-shell {staged_files}
