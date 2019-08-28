@@ -59,9 +59,13 @@ Further Plans
 I'm quickly realizing that some amount of initialization and testing
 will be necessary to separate my tooling from the final repo.
 
-I think there will be two repos:
-* monoskel-master (builds monoskel commits)
-* monoskel (what people clone)
+Thinking this over further, I think the process for building will be
+something like this:
+
+* User checks out monoskel.
+* User runs `bin/initialize-repo PATH_TO_REPO GIT_PROJECT_NAME` and it crates the
+  skeleton based on this repo. The basic skeleton probably gets moved elsewhere.
+ 
 
 Things that currently need to be separated out are:
 * remove `bin/initialize-repo` after it runs successfully.
