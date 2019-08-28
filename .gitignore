@@ -4,7 +4,7 @@
 !.idea/runConfigurations/
 
 # Ignore bazel build directories
-bazel-*/
+bazel-*
 
 # Githok management via lefthook. Ignore local definitions, but include
 # warning README.
