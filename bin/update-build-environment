@@ -70,6 +70,7 @@ install_darwin() {
 }
 
 configure_commit_hooks() {
+    cd ${project_root}
     lefthook install
     if [[ ! -e "$project_root/lefthook-local.yml" ]]; then
         cat <<'EOLOCALHOOKS' >"$project_root/lefthook-local.yml"
