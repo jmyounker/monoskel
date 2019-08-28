@@ -67,6 +67,7 @@ install_darwin() {
     install_cask docker
     install_cask intellij-idea-ce
     install_brew bazel
+    install_brew pipenv
 }
 
 configure_commit_hooks() {
