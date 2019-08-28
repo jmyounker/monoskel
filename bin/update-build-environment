@@ -1,83 +1,85 @@
 #!/bin/sh -e
 
-script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
+script_dir=$(
+    cd $(dirname $0) >/dev/null 2>&1
+    pwd
+)
 project_root=$(dirname ${script_dir})
 
 install_brew() {
-	pkg=${1}
-	if ( brew list $pkg ); then
-		set +e
-		brew_output=$(brew upgrade $pkg 2>&1)
-		set -e
+    pkg=${1}
+    if (brew list $pkg); then
+        set +e
+        brew_output=$(brew upgrade $pkg 2>&1)
+        set -e
 
-		if ( echo "$brew_output" | grep -q 'already installed' ); then
-			return 0
-		elif ( echo "$brew_output" | grep -q 'there is already an App at' ); then
-			return 0
-		else
-			return 1
-		fi
-	else
-		set +e
-		brew_output=$(brew install $pkg 2>&1)
-		set -e
-		if ( echo "$brew_output" | grep -q 'there is already an App at' ); then
-			return 0
-		else
-			return 1
-		fi
-	fi
+        if (echo "$brew_output" | grep -q 'already installed'); then
+            return 0
+        elif (echo "$brew_output" | grep -q 'there is already an App at'); then
+            return 0
+        else
+            return 1
+        fi
+    else
+        set +e
+        brew_output=$(brew install $pkg 2>&1)
+        set -e
+        if (echo "$brew_output" | grep -q 'there is already an App at'); then
+            return 0
+        else
+            return 1
+        fi
+    fi
 }
 
-
 install_cask() {
-	pkg=${1}
-	if ( brew cask list $pkg ); then
-		set +e
-		brew_output=$(brew cask upgrade $pkg 2>&1)
-		set -e
+    pkg=${1}
+    if (brew cask list $pkg); then
+        set +e
+        brew_output=$(brew cask upgrade $pkg 2>&1)
+        set -e
 
-		if ( echo "$brew_output" | grep -q 'No Casks to upgrade' ); then
-			return 0
-		elif ( echo "$brew_output" | grep -q 'there is already an App at' ); then
-			return 0
-		else
-			return 1
-		fi
-	else
-		set +e
-		brew_output=$(brew cask install $pkg 2>&1)
-		set -e
-		if ( echo "$brew_output" | grep -q 'there is already an App at' ); then
-			return 0
-		else
-			return 1
-		fi
-	fi
+        if (echo "$brew_output" | grep -q 'No Casks to upgrade'); then
+            return 0
+        elif (echo "$brew_output" | grep -q 'there is already an App at'); then
+            return 0
+        else
+            return 1
+        fi
+    else
+        set +e
+        brew_output=$(brew cask install $pkg 2>&1)
+        set -e
+        if (echo "$brew_output" | grep -q 'there is already an App at'); then
+            return 0
+        else
+            return 1
+        fi
+    fi
 }
 
 install_darwin() {
-	if (! which -s brew); then
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	fi
+    if (! which -s brew); then
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
 
-	install_brew Arkweid/lefthook/lefthook
-	install_cask docker
-	install_cask intellij-idea-ce
-	install_brew bazel
+    install_brew Arkweid/lefthook/lefthook
+    install_cask docker
+    install_cask intellij-idea-ce
+    install_brew bazel
 }
 
 configure_commit_hooks() {
-	lefthook install
-	if [[ ! -e "$project_root/lefthook-local.yml" ]]; then
-		cat <<'EOLOCALHOOKS' >"$project_root/lefthook-local.yml"
+    lefthook install
+    if [[ ! -e "$project_root/lefthook-local.yml" ]]; then
+        cat <<'EOLOCALHOOKS' >"$project_root/lefthook-local.yml"
 # This file contains local commit hook definitions which override the values from `lefthook.yml`.
 # These changes should never be committed and are .gitignored.
 EOLOCALHOOKS
-	fi
+    fi
 }
 
 if [ "$(uname)" == "Darwin" ]; then
-	install_darwin
+    install_darwin
 fi
 configure_commit_hooks

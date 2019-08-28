@@ -2,7 +2,10 @@
 
 # Restores the repo to a blank state from within the repo.
 
-script_dir=$(cd $(dirname $0) >/dev/null 2>&1; pwd)
+script_dir=$(
+    cd $(dirname $0) >/dev/null 2>&1
+    pwd
+)
 project_root=$(dirname ${script_dir})
 
 # Replace WORKSPACE with the template
