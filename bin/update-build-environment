@@ -72,7 +72,7 @@ configure_commit_hooks() {
 	if [[ ! -e "$project_root/lefthook-local.yml" ]]; then
 		cat <<'EOLOCALHOOKS' >"$project_root/lefthook-local.yml"
 # This file contains local commit hook definitions which override the values from `lefthook.yml`.
-# These changes should never be commited and are .gitignored.
+# These changes should never be committed and are .gitignored.
 EOLOCALHOOKS
 	fi
 }
