@@ -7,3 +7,7 @@ pre-commit:
       run: bin/check-exe-have-no-ext {staged_files}
     lint-shell:
       run: bin/lint-shell {staged_files}
+    lint-python3-black:
+      run: bin/lint-python3-black {staged_files}
+    lint-python3-flake8:
+      run: bin/lint-python3-flake8 {staged_files}

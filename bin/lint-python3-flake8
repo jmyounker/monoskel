@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+
+"""Ensure that Python files pass flake8 checks.
+
+    Usage: lint-python3-flake8 [FILES]+
+
+    Runs `flake8` on the requested files. Any failure results in a non-zero return code.
+
+    """
+
+
+import os
+import stat
+import sys
+
+
+MAX_SHEBANG_LINE = 10000
+
+
+def is_executable(path):
+    return bool(os.stat(path).st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
+
+
+def is_python_file(path):
+    """True if `path` is a Python file. False otherwise."""
+    if path.endswith(".py"):
+        return True
+    with open(path, "r") as f:
+        first_line = f.readline(MAX_SHEBANG_LINE)  # Bounded but stupidly large
+    if not first_line.startswith("#!"):
+        return False
+    return "python3" in first_line[2:]
+
+
+def main(args):
+    bin_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    project_root = os.path.dirname(bin_dir)
+    config = os.path.join(project_root, "pyproject.toml")
+    python_files = [x for x in args[1:] if is_python_file(x)]
+    if not python_files:
+        return 0
+    os.execvp("flake8", ["flake8", "--config", config] + python_files)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
