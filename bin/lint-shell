@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 
-"""Ensure that shell scripts are correctly processed.
+"""Ensure that shell scripts are correctly formatted.
 
-    Usage: check-shell-fmt [FILES]+
+    Usage: lint-shell [FILES]+
 
     Runs `shfmt` on the requested files. Diffs are displayed. Any
     failure results in a non-zero return code.
@@ -17,7 +17,7 @@ import subprocess
 import sys
 
 
-MAX_SHEBANG_LINE=10000
+MAX_SHEBANG_LINE = 10000
 
 
 def is_executable(path):
@@ -27,33 +27,36 @@ def is_executable(path):
 def shell_dialect(path):
     """Returns None if not a shell and the shell variant otherwise. Variant may be posix or bash."""
     base, ext = os.path.splitext(os.path.basename(path))
-    with open(path, 'r') as f:
+    with open(path, "r") as f:
         first_line = f.readline(MAX_SHEBANG_LINE)  # Bounded but stupidly large
-    if ext in ['.zsh', '.fish']:
+    if ext in [".zsh", ".fish"]:
         return None
-    if not first_line.startswith('#!') and ext == '.sh':
-        return 'bash'
-    if not first_line.startswith('#!'):
+    if not first_line.startswith("#!") and ext == ".sh":
+        return "bash"
+    if not first_line.startswith("#!"):
         return None
     if not is_executable(path):
         return None
     parts = first_line[2:].split()
     interpreter = os.path.basename(parts[0])
-    if interpreter in ['ksh', 'sh']:
-        return 'posix'
-    elif interpreter in ['bash', 'dash']:
-        return 'bash'
+    if interpreter in ["ksh", "sh"]:
+        return "posix"
+    elif interpreter in ["bash", "dash"]:
+        return "bash"
     else:
         return None
 
 
 def shfmt(path, dialect):
     """Lints the appropriate dialect. Returns none if lint passed, otherwise the diff."""
-    cmd = ['shfmt', '-ln', dialect, '-d', '-i', '4', path]
+    cmd = ["shfmt", "-ln", dialect, "-d", "-i", "4", path]
     p = subprocess.run(cmd, stdin=subprocess.PIPE, capture_output=True)
     if p.returncode == 0:
         return None
-    return {'fix': 'shfmt -ln %s -i 4 %s' % (dialect, os.path.abspath(path)), 'diff': p.stdout.decode('utf8')}
+    return {
+        "fix": "shfmt -ln %s -i 4 %s" % (dialect, os.path.abspath(path)),
+        "diff": p.stdout.decode("utf8"),
+    }
 
 
 def main(args):
@@ -63,11 +66,11 @@ def main(args):
     path_lint = ((x, shfmt(x, dialect)) for x, dialect in lintable_path_dialect)
     unclean_path_lint = [(x, lint) for x, lint in path_lint if lint is not None]
     for path, lint in unclean_path_lint:
-        sys.stderr.write('error: script %s is unclean\n' % path)
-        sys.stderr.write('fix with: %s\n' % lint['fix'])
-        sys.stderr.write(lint['diff'])
+        sys.stderr.write("error: script %s is unclean\n" % path)
+        sys.stderr.write("fix with: %s\n" % lint["fix"])
+        sys.stderr.write(lint["diff"])
     return 1 if unclean_path_lint else 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv))
