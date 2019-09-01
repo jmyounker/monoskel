@@ -63,11 +63,14 @@ install_darwin() {
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
+    install_brew python3
+    install_brew pipenv
     install_brew Arkweid/lefthook/lefthook
     install_cask docker
     install_cask intellij-idea-ce
     install_brew bazel
-    install_brew pipenv
+    install_brew buildifier
+    install_brew shfmt
 }
 
 configure_commit_hooks() {
