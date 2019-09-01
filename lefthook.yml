@@ -2,7 +2,7 @@ pre-commit:
   parallel: true
   commands:
     check-script-permissions:
-      run: bin/check-script-permissions {staged_files}
+      run: bazel-bin/cell/ci/hooks/check-script-permissions {staged_files}
     check-exe-have-no-ext:
       run: bazel-bin/cell/ci/hooks/check-exe-have-no-ext {staged_files}
     lint-shell:
