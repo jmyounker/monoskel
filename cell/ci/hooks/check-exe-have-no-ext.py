@@ -4,7 +4,8 @@
 
     If any files are executable and have file extensions then it returns
     with a non-zero exit code. Prints diagnostics to stderr.
-    """
+
+"""
 
 
 import os
