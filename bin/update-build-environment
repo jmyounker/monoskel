@@ -76,6 +76,7 @@ install_darwin() {
 configure_commit_hooks() {
     cd ${project_root}
     lefthook install
+    # shellcheck disable=SC2039
     if [[ ! -e "$project_root/lefthook-local.yml" ]]; then
         cat <<'EOLOCALHOOKS' >"$project_root/lefthook-local.yml"
 # This file contains local commit hook definitions which override the values from `lefthook.yml`.
