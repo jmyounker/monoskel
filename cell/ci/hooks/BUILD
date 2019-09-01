@@ -12,3 +12,8 @@ py_binary(
     name = "lint-python3-black",
     srcs = ["lint-python3-black.py"],
 )
+
+py_binary(
+    name = "lint-python3-flake8",
+    srcs = ["lint-python3-flake8.py"],
+)

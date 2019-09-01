@@ -10,4 +10,4 @@ pre-commit:
     lint-python3-black:
       run: bazel-bin/cell/ci/hooks/lint-python3-black {staged_files}
     lint-python3-flake8:
-      run: bin/lint-python3-flake8 {staged_files}
+      run: bazel-bin/cell/ci/hooks/lint-python3-flake8 {staged_files}
