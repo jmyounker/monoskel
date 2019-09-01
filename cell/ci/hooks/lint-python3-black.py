@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 """Ensure that Python files pass flake8 checks.
 
     Usage: lint-python3-black [FILES]+
@@ -8,19 +5,15 @@
     Runs `black` on the requested files. Any failure results in a non-zero return code. Diffs
     are printed.
 
-    """
+
+"""
 
 
 import os
-import stat
 import sys
 
 
 MAX_SHEBANG_LINE = 1024
-
-
-def is_executable(path):
-    return bool(os.stat(path).st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
 
 
 def is_python_file(path):
@@ -35,13 +28,10 @@ def is_python_file(path):
 
 
 def main(args):
-    bin_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-    project_root = os.path.dirname(bin_dir)
-    config = os.path.join(project_root, "pyproject.toml")
     python_files = [x for x in args[1:] if is_python_file(x)]
     if not python_files:
         return 0
-    os.execvp("black", ["black", "--config", config, "--check", "--diff"] + python_files)
+    os.execvp("black", ["black", "--check", "--diff"] + python_files)
 
 
 if __name__ == "__main__":
