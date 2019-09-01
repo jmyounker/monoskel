@@ -85,3 +85,4 @@ if [ "$(uname)" == "Darwin" ]; then
     install_darwin
 fi
 configure_commit_hooks
+bazel build //cell/ci//hooks:all

@@ -4,7 +4,7 @@ pre-commit:
     check-script-permissions:
       run: bin/check-script-permissions {staged_files}
     check-exe-have-no-ext:
-      run: bin/check-exe-have-no-ext {staged_files}
+      run: bazel-bin/cell/ci/hooks/check-exe-have-no-ext {staged_files}
     lint-shell:
       run: bin/lint-shell {staged_files}
     lint-python3-black:

@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 """Ensure that executable files don't have file extensions.
 
     Usage: check-exe-have-no-ext [FILES]+
@@ -8,6 +5,7 @@
     If any files are executable and have file extensions then it returns
     with a non-zero exit code. Prints diagnostics to stderr.
     """
+
 
 import os
 import stat
@@ -20,16 +18,16 @@ def is_executable(path):
 
 def has_ext(path):
     _, ext = os.path.splitext(os.path.basename(path))
-    return ext != ''
+    return ext != ""
 
 
 def main(args):
     executables = (x for x in args[1:] if not os.path.isdir(x) and is_executable(x))
     executables_with_ext = [x for x in executables if has_ext(x)]
     for exe in executables_with_ext:
-        sys.stderr.write('error: script %s is not executable\n' % exe)
+        sys.stderr.write("error: script %s is not executable\n" % exe)
     return 1 if executables_with_ext else 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv))
