@@ -5,7 +5,6 @@
     Runs `black` on the requested files. Any failure results in a non-zero return code. Diffs
     are printed.
 
-
 """
 
 
