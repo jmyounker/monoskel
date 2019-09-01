@@ -6,7 +6,7 @@ pre-commit:
     check-exe-have-no-ext:
       run: bazel-bin/cell/ci/hooks/check-exe-have-no-ext {staged_files}
     lint-shell:
-      run: bin/lint-shell {staged_files}
+      run: bazel-bin/cell/ci/hooks/lint-shell {staged_files}
     lint-python3-black:
       run: bazel-bin/cell/ci/hooks/lint-python3-black {staged_files}
     lint-python3-flake8:

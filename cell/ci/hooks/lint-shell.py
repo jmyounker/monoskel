@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 """Ensure that shell scripts are correctly formatted.
 
     Usage: lint-shell [FILES]+
@@ -8,7 +5,7 @@
     Runs `shfmt` on the requested files. Diffs are displayed. Any
     failure results in a non-zero return code.
 
-    """
+"""
 
 
 import os
