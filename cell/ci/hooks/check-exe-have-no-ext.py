@@ -9,22 +9,14 @@
 
 
 import os
-import stat
 import sys
 
-
-def is_executable(path):
-    return bool(os.stat(path).st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
-
-
-def has_ext(path):
-    _, ext = os.path.splitext(os.path.basename(path))
-    return ext != ""
+from cell.ci.hooks import files
 
 
 def main(args):
-    executables = (x for x in args[1:] if not os.path.isdir(x) and is_executable(x))
-    executables_with_ext = [x for x in executables if has_ext(x)]
+    executables = (x for x in args[1:] if not os.path.isdir(x) and files.is_executable(x))
+    executables_with_ext = [x for x in executables if files.has_ext(x)]
     for exe in executables_with_ext:
         sys.stderr.write("error: script %s is not executable\n" % exe)
     return 1 if executables_with_ext else 0

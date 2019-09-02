@@ -5,9 +5,9 @@ pre-commit:
       run: bazel-bin/cell/ci/hooks/check-script-permissions {staged_files}
     check-exe-have-no-ext:
       run: bazel-bin/cell/ci/hooks/check-exe-have-no-ext {staged_files}
-    lint-shell:
-      run: bazel-bin/cell/ci/hooks/lint-shell {staged_files}
-    lint-python3-black:
-      run: bazel-bin/cell/ci/hooks/lint-python3-black {staged_files}
-    lint-python3-flake8:
-      run: bazel-bin/cell/ci/hooks/lint-python3-flake8 {staged_files}
+    check-shell-shfmt:
+      run: bazel-bin/cell/ci/hooks/check-shell-shfmt {staged_files}
+    check-python3-black:
+      run: bazel-bin/cell/ci/hooks/check-python3-black {staged_files}
+    check-python3-flake8:
+      run: bazel-bin/cell/ci/hooks/check-python3-flake8 {staged_files}

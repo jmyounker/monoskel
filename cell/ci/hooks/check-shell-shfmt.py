@@ -9,30 +9,24 @@
 
 
 import os
-import stat
 import subprocess
 import sys
 
-
-MAX_SHEBANG_LINE = 10000
-
-
-def is_executable(path):
-    return bool(os.stat(path).st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
+from cell.ci.hooks import files
 
 
 def shell_dialect(path):
     """Returns None if not a shell and the shell variant otherwise. Variant may be posix or bash."""
     base, ext = os.path.splitext(os.path.basename(path))
     with open(path, "r") as f:
-        first_line = f.readline(MAX_SHEBANG_LINE)  # Bounded but stupidly large
+        first_line = f.readline(files.MAX_SHEBANG_LINE)  # Bounded but stupidly large
     if ext in [".zsh", ".fish"]:
         return None
     if not first_line.startswith("#!") and ext == ".sh":
         return "bash"
     if not first_line.startswith("#!"):
         return None
-    if not is_executable(path):
+    if not files.is_executable(path):
         return None
     parts = first_line[2:].split()
     interpreter = os.path.basename(parts[0])

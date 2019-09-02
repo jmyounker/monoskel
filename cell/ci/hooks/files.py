@@ -1,17 +1,8 @@
-"""Ensure that Python files pass flake8 checks.
-
-    Usage: lint-python3-flake8 [FILES]+
-
-    Runs `flake8` on the requested files. Any failure results in a non-zero return code.
-
-"""
-
-
 import os
-import sys
+import stat
 
 
-MAX_SHEBANG_LINE = 10000
+MAX_SHEBANG_LINE = 1024
 
 
 def is_python_file(path):
@@ -41,16 +32,15 @@ def contains_file(filename):
     return predicate
 
 
-def main(args):
-    python_files = [x for x in args[1:] if is_python_file(x)]
-    if not python_files:
-        return 0
-    root = find_in_path(contains_file("pyproject.toml"), os.path.abspath(args[0]))
-    if root is None:
-        return 1
-    config = os.path.join(root, "pyproject.toml")
-    os.execvp("flake8", ["flake8", "--config", config] + python_files)
+def is_executable(path):
+    return bool(os.stat(path).st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
 
 
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+def has_ext(path):
+    _, ext = os.path.splitext(os.path.basename(path))
+    return ext != ""
+
+
+def has_shebang(path):
+    with open(path, "r") as f:
+        return f.read(2) == "#!"
