@@ -1,0 +1,16 @@
+# Simple directory state file that adds or removes a child bin directory
+# to/from your path. Used by the dinit zsh plugin.
+local PWD=${0:h}
+case "$1" in
+    enter)
+        path=("$PWD/bin" $path)
+        export MONOROOT="$PWD"
+        ;;
+    leave)
+        unset MONOROOT
+        path=(${(@)path:#$PWD/bin})
+         ;;
+    *)
+        echo "Usage: $0 {enter|leave}" >&2
+        ;;
+esac
