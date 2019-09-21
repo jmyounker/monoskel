@@ -1,0 +1,34 @@
+#!/bin/sh -ex
+
+if [ $# != 1 ]; then
+    echo "usage: $0 PROJECT_ROOT" >&2
+    exit 127
+fi
+
+root="$1"
+
+project_name=$(basename ${root})
+validated_project_name=$(echo ${project_name} | awk '/^[a-zA-Z0-9_]+$/{ print $0 }')
+
+if [ "$project_name" != "$validated_project_name" ]; then
+    echo "error: not a valid bazel project name:'$project_name'" >&2
+    exit 127
+fi
+
+if [ -e ${root} ]; then
+    echo "error: '${root}' should not exist" >&2
+    exit 1
+fi
+
+cp -r skel ${root}
+
+# Replace the project name
+sed -E -i '' -e "s/\\{\\{repo-name\\}\\}/\$1/g" "$root/WORKSPACE"
+sed -E -i '' -e '/^# This repo is uninitialized\./d' "$root/WORKSPACE"
+
+(
+    cd ${root}
+    git init
+    git add .
+    git commit -m 'Initial monoskel commit.'
+)
