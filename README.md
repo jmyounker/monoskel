@@ -5,14 +5,17 @@ This is a skeleton monorepo. It uses the following tooling:
 
 * `git` as the revision control system.
 * `bazel` for the build tool.
-* `brew` as a package manager on OSX.
 * `zsh` as a shell.
-* `zgen` to manage shell plugins.
 * `lefthook` to manage git hooks.
+
+* `github` for the central git repository. (gitlab?)
+* `zgen` to manage shell plugins.
+* `brew` as a package manager on OSX.
+* `sdkman` to manage java family sdks in developer environments.
+* `p4merge` as an external diff/merge tool.
 * `idea` as a development tool. (VSCode?)
 * `jira` for ticket tracking.
 * `confluence` for an external documentation system.
-* `p4merge` as an external build tool.
 
 Getting Started
 ---
@@ -35,42 +38,41 @@ Filesytem Layout
 
 `bin` -- scripts run by the build environment
 
-`bin/initialize-repo` -- initializes repo
+`bin/create-repo` -- creates a new monorep from the skeleton
 
 `bin/update-build-environment` -- install/update developer's environment 
 
 `cell` -- developer level components go here
 
+`skel` -- contains the template for a new repo
+
 `WORKSPACE` -- master workspace file for  
 
 `README.md` -- an overview of the repo; this file
 
-`WORKSPACE.tmpl` -- template file for WORKSPACE which may eventually go away; pay no attention
 
 Further Plans
 ---
-
-**Set license for project**
-
-**Create github project(s)**
-
-**Turn target repo into a build artifact.**
-
-I'm quickly realizing that some amount of initialization and testing
-will be necessary to separate my tooling from the final repo.
 
 Thinking this over further, I think the process for building will be
 something like this:
 
 * User checks out monoskel.
-* User runs `bin/initialize-repo PATH_TO_REPO GIT_PROJECT_NAME` and it crates the
-  skeleton based on this repo. The basic skeleton probably gets moved elsewhere.
- 
+* User runs `bin/monoskel create PATH_TO_REPO` and it creates the
+  skeleton based on this repo and creates a base project.
+* Creates first commit.
+* User manually pushes to gitlab/github.
 
-Things that currently need to be separated out are:
-* remove `bin/initialize-repo` after it runs successfully.
-* remove `bin/initialize-repo` from distribution repo.
-* remove `WORKSPACE.tmpl` from distribution repo.
+Update process looks like on of these:
+
+* User updates monoskel.
+* User runs `bin/monoskel plan PATH_TO_REPO` and it creates a list
+  of files which will be updated.
+* User redirects these to file.
+* User edits file.
+* User runs plan `bin/monoskel apply`.
+
+**Automate creation of upstream repo** 
 
 **Automate application for Atlassian accounts**
 

@@ -23,7 +23,7 @@ fi
 cp -r skel ${root}
 
 # Replace the project name
-sed -E -i '' -e "s/\\{\\{repo-name\\}\\}/\$1/g" "$root/WORKSPACE"
+sed -E -i '' -e "s/\\{\\{repo-name\\}\\}/$project_name/g" "$root/WORKSPACE"
 sed -E -i '' -e '/^# This repo is uninitialized\./d' "$root/WORKSPACE"
 
 (

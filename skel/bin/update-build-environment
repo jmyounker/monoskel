@@ -73,6 +73,18 @@ install_darwin() {
     install_brew shfmt
 }
 
+install_sdkman() {
+    td=$(mktemp -d)
+    # shellcheck disable=SC2064
+    trap "rm -rf $td" EXIT
+    curl -o "$td/install" https://get.sdkman.io
+    (
+        cd $td
+        bash ./install
+        ls -la .
+    )
+}
+
 configure_commit_hooks() {
     cd ${project_root}
     lefthook install
@@ -85,6 +97,8 @@ EOLOCALHOOKS
     fi
 }
 
+install_sdkman
+exit 0
 if [ "$(uname)" == "Darwin" ]; then
     install_darwin
 fi
