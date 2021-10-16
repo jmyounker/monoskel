@@ -12,7 +12,7 @@ This is a skeleton monorepo. It uses the following tooling:
 * `idea` as a development tool. (VSCode?)
 * `jira` for ticket tracking.
 * `confluence` for an external documentation system.
-* `p4merge` as an external build tool.
+* `p4merge` as an external diff tool.
 
 Getting Started
 ---
